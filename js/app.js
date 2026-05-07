@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCategories();
   renderProducts(PRODUCTS);
   setupCartToggle();
+  setupMenuToggle();
+  setupNavLinks();
 });
 
 function renderCategories() {
@@ -77,4 +79,39 @@ function setupCartToggle() {
     sidebar.classList.remove("open");
     overlay.classList.remove("show");
   }
+}
+
+function setupMenuToggle() {
+  const btn = document.getElementById("menu-toggle");
+  const nav = document.getElementById("header-nav");
+  if (!btn || !nav) return;
+
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("open");
+    nav.classList.toggle("open");
+  });
+}
+
+function setupNavLinks() {
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", (e) => {
+      const cat = link.dataset.category;
+      if (!cat || cat === "sobre") return;
+
+      e.preventDefault();
+      document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+
+      filterProducts(cat);
+
+      const menuBtn = document.getElementById("menu-toggle");
+      const nav = document.getElementById("header-nav");
+      if (menuBtn && nav) {
+        menuBtn.classList.remove("open");
+        nav.classList.remove("open");
+      }
+
+      document.getElementById("product-grid").scrollIntoView({ behavior: "smooth" });
+    });
+  });
 }

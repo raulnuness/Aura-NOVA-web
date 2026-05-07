@@ -9,7 +9,19 @@
 <body>
 
   <header class="header">
-    <div class="logo">DropShop</div>
+    <div class="header-left">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="logo">DropShop</div>
+    </div>
+    <nav class="header-nav" id="header-nav">
+      <a href="#" class="nav-link active" data-category="todos">Início</a>
+      <a href="#bem-estar" class="nav-link" data-category="bem-estar">Bem-estar</a>
+      <a href="#casa" class="nav-link" data-category="casa">Casa e Decor</a>
+      <a href="#gadgets" class="nav-link" data-category="gadgets">Gadgets</a>
+      <a href="#sobre" class="nav-link" data-category="sobre">Sobre</a>
+    </nav>
     <button class="cart-btn" id="cart-toggle">
       Carrinho <span id="cart-count">0</span>
     </button>
@@ -45,7 +57,27 @@
   </aside>
 
   <footer class="footer">
-    <p>&copy; 2026 DropShop</p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>DropShop</h4>
+        <p>Curadoria de produtos inovadores com entrega rápida e preços justos.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categorias</h4>
+        <a href="#bem-estar">Bem-estar</a>
+        <a href="#casa">Casa e Decor</a>
+        <a href="#gadgets">Gadgets</a>
+      </div>
+      <div class="footer-col">
+        <h4>Apoio</h4>
+        <a href="#">Envios e Devoluções</a>
+        <a href="#">Perguntas Frequentes</a>
+        <a href="#">Contacto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 DropShop</p>
+    </div>
   </footer>
 
   <script src="js/products.js"></script>
