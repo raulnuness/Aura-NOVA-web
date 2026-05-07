@@ -41,8 +41,8 @@ function renderProducts(products) {
         <h3>${p.name}</h3>
         <p class="product-desc">${p.description}</p>
         <div class="product-rating">
-          ${"★".repeat(Math.floor(p.rating))}${p.rating % 1 >= 0.5 ? "½" : ""}
-          <span>(${p.reviews})</span>
+          <span class="star">${"★".repeat(Math.floor(p.rating))}${p.rating % 1 >= 0.5 ? "½" : ""}</span>
+          <span>${p.rating} (${p.reviews})</span>
         </div>
         <div class="product-pricing">
           <span class="product-price">${p.price.toFixed(2).replace(".", ",")}€</span>
