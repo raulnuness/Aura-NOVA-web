@@ -8,6 +8,10 @@
 </head>
 <body>
 
+  <div class="urgency-bar" id="urgency-bar">
+    <span id="urgency-text">Apenas 3 unidades restantes &mdash; M&aacute;scara de Terapia LED</span>
+  </div>
+
   <header class="header">
     <div class="header-left">
       <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
@@ -31,11 +35,51 @@
     <section class="hero">
       <h1>Produtos que fazem a diferença</h1>
       <p>Curadoria de artigos inovadores, entrega rápida e preços justos.</p>
+      <div class="countdown" id="countdown">
+        <span class="countdown-label">Promo&ccedil;&atilde;o acaba em</span>
+        <div class="countdown-timer">
+          <div class="countdown-block"><span id="cd-hours">00</span><small>horas</small></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-block"><span id="cd-mins">00</span><small>min</small></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-block"><span id="cd-secs">00</span><small>seg</small></div>
+        </div>
+      </div>
     </section>
 
     <nav class="categories" id="categories"></nav>
 
     <section class="product-grid" id="product-grid"></section>
+
+    <section class="reviews-section">
+      <h2>O que dizem os nossos clientes</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"A máscara LED mudou a minha rotina de skincare. Resultados visíveis em 2 semanas!"</p>
+          <div class="review-author">
+            <span class="review-name">Ana S.</span>
+            <span class="review-verified">Compra verificada</span>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"O projetor Galaxy é incrível. O quarto ficou com um ambiente fantástico."</p>
+          <div class="review-author">
+            <span class="review-name">Miguel R.</span>
+            <span class="review-verified">Compra verificada</span>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★½</div>
+          <p class="review-text">"Liners da air fryer super práticos. Já não vivo sem eles, poupo muito tempo."</p>
+          <div class="review-author">
+            <span class="review-name">Sofia L.</span>
+            <span class="review-verified">Compra verificada</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <div class="cart-overlay" id="cart-overlay"></div>
@@ -79,6 +123,18 @@
       <p>&copy; 2026 DropShop</p>
     </div>
   </footer>
+
+  <div class="email-popup-overlay" id="email-overlay"></div>
+  <div class="email-popup" id="email-popup">
+    <button class="email-popup-close" id="email-popup-close">&times;</button>
+    <h3>10% de desconto na primeira compra</h3>
+    <p>Subscreve e recebe um código exclusivo no teu email.</p>
+    <form class="email-popup-form" id="email-form">
+      <input type="email" placeholder="O teu email" required id="email-input">
+      <button type="submit">Subscrever</button>
+    </form>
+    <small>Não enviamos spam. Cancela quando quiseres.</small>
+  </div>
 
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>

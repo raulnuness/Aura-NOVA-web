@@ -10,7 +10,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Mascara+LED",
     badge: "Bestseller",
     rating: 4.7,
-    reviews: 234
+    reviews: 234,
+    stock: 3
   },
   {
     id: 2,
@@ -22,7 +23,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Acupressao",
     badge: null,
     rating: 4.5,
-    reviews: 187
+    reviews: 187,
+    stock: 12
   },
   {
     id: 3,
@@ -34,7 +36,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Gua+Sha",
     badge: null,
     rating: 4.6,
-    reviews: 312
+    reviews: 312,
+    stock: 8
   },
   {
     id: 4,
@@ -46,7 +49,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Massajador",
     badge: "Novo",
     rating: 4.4,
-    reviews: 98
+    reviews: 98,
+    stock: 5
   },
 
   // Casa e Decor
@@ -60,7 +64,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Galaxy",
     badge: "Trend",
     rating: 4.8,
-    reviews: 456
+    reviews: 456,
+    stock: 2
   },
   {
     id: 6,
@@ -72,7 +77,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Difusor",
     badge: null,
     rating: 4.6,
-    reviews: 203
+    reviews: 203,
+    stock: 7
   },
   {
     id: 7,
@@ -84,7 +90,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Sunset",
     badge: null,
     rating: 4.5,
-    reviews: 178
+    reviews: 178,
+    stock: 14
   },
   {
     id: 8,
@@ -96,7 +103,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Dino",
     badge: "Bestseller",
     rating: 4.9,
-    reviews: 521
+    reviews: 521,
+    stock: 4
   },
 
   // Gadgets e Acessórios
@@ -110,7 +118,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Suporte+Magnetico",
     badge: null,
     rating: 4.3,
-    reviews: 145
+    reviews: 145,
+    stock: 20
   },
   {
     id: 10,
@@ -122,7 +131,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Sprayer",
     badge: null,
     rating: 4.4,
-    reviews: 89
+    reviews: 89,
+    stock: 18
   },
   {
     id: 11,
@@ -134,7 +144,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Air+Fryer+Liners",
     badge: "Bestseller",
     rating: 4.7,
-    reviews: 367
+    reviews: 367,
+    stock: 9
   },
   {
     id: 12,
@@ -146,7 +157,8 @@ const PRODUCTS = [
     image: "https://placehold.co/400x400/f5f5f5/1a1a1a?text=Organizador",
     badge: null,
     rating: 4.5,
-    reviews: 134
+    reviews: 134,
+    stock: 11
   }
 ];
 
