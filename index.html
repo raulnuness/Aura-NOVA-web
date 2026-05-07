@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DropShop - Loja Online</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">DropShop</div>
+    <button class="cart-btn" id="cart-toggle">
+      🛒 Carrinho <span id="cart-count">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Os melhores produtos <span>direto para ti</span></h1>
+      <p>Descobre produtos inovadores com entrega rápida e preços imbatíveis.</p>
+    </section>
+
+    <nav class="categories" id="categories"></nav>
+
+    <section class="product-grid" id="product-grid"></section>
+  </main>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2>Carrinho</h2>
+      <button id="cart-close">&times;</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty">O carrinho está vazio</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cart-total">0,00€</span>
+      </div>
+      <button class="btn-checkout" onclick="alert('Checkout em desenvolvimento!')">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <footer class="footer">
+    <p>&copy; 2026 DropShop. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
