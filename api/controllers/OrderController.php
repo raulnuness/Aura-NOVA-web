@@ -10,6 +10,9 @@ class OrderController {
     public function create() {
         $data = json_decode(file_get_contents('php://input'), true);
 
+        // Iniciar transação para garantir atomicidade
+        $this->db->beginTransaction();
+
         // Validação dos campos obrigatórios
         $required = ['customer_name', 'customer_email', 'address', 'items'];
         foreach ($required as $field) {
@@ -80,37 +83,47 @@ class OrderController {
         $total = $subtotal - $discount + $shipping;
         if ($total < 0) $total = 0;
 
-        // Inserir encomenda
-        $stmt = $this->db->prepare('INSERT INTO orders (order_number, customer_name, customer_surname, customer_email, customer_phone, address, postal_code, city, subtotal, discount, shipping, total, coupon_code, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $orderNumber,
-            $data['customer_name'],
-            $data['customer_surname'] ?? null,
-            $data['customer_email'],
-            $data['customer_phone'] ?? null,
-            $data['address'],
-            $data['postal_code'] ?? null,
-            $data['city'] ?? null,
-            $subtotal,
-            $discount,
-            $shipping,
-            $total,
-            $couponCode,
-            $data['payment_method'] ?? 'stripe'
-        ]);
+        try {
+            $stmt = $this->db->prepare('INSERT INTO orders (order_number, customer_name, customer_surname, customer_email, customer_phone, address, postal_code, city, subtotal, discount, shipping, total, coupon_code, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $orderNumber,
+                $data['customer_name'],
+                $data['customer_surname'] ?? null,
+                $data['customer_email'],
+                $data['customer_phone'] ?? null,
+                $data['address'],
+                $data['postal_code'] ?? null,
+                $data['city'] ?? null,
+                $subtotal,
+                $discount,
+                $shipping,
+                $total,
+                $couponCode,
+                $data['payment_method'] ?? 'stripe'
+            ]);
 
-        $orderId = $this->db->lastInsertId();
+            $orderId = $this->db->lastInsertId();
 
-        // Inserir itens
-        $stmt = $this->db->prepare('INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity) VALUES (?, ?, ?, ?, ?)');
-        foreach ($items as $item) {
-            $stmt->execute([$orderId, $item['product_id'], $item['product_name'], $item['unit_price'], $item['quantity']]);
-        }
+            // Inserir itens
+            $stmt = $this->db->prepare('INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity) VALUES (?, ?, ?, ?, ?)');
+            foreach ($items as $item) {
+                $stmt->execute([$orderId, $item['product_id'], $item['product_name'], $item['unit_price'], $item['quantity']]);
+            }
 
-        // Incrementar uso do cupão
+        // Incrementar uso do cupão (atómico — verificar limite ao incrementar)
         if ($couponCode) {
-            $this->db->prepare('UPDATE coupons SET used_count = used_count + 1 WHERE code = ?')->execute([$couponCode]);
+            $stmt = $this->db->prepare('UPDATE coupons SET used_count = used_count + 1 WHERE code = ? AND (max_uses IS NULL OR used_count < max_uses)');
+            $stmt->execute([$couponCode]);
+            if ($stmt->rowCount() === 0) {
+                // Cupão atingiu o limite entre a validação e a criação — reverter
+                $this->db->rollBack();
+                http_response_code(400);
+                echo json_encode(['error' => 'Cupão esgotado']);
+                return;
+            }
         }
+
+        $this->db->commit();
 
         echo json_encode([
             'order_id' => $orderId,
@@ -246,6 +259,9 @@ class OrderController {
 
     // Tracking público — cliente consulta estado da encomenda
     public function track($orderNumber) {
+        // Rate limiting: 10 pedidos por minuto por IP
+        applyRateLimit(10, 60);
+
         $stmt = $this->db->prepare('SELECT order_number, status, created_at, updated_at FROM orders WHERE order_number = ?');
         $stmt->execute([$orderNumber]);
         $order = $stmt->fetch();

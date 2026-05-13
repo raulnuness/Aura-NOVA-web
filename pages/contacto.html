@@ -283,6 +283,8 @@
         <h2>Envia-nos uma mensagem</h2>
         <div class="form-message" id="form-message"></div>
         <form id="contact-form" action="/api/contact" method="POST" novalidate>
+          <!-- Honeypot — campo invisível para detetar bots -->
+          <input type="text" name="website" id="hp-website" style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;width:0;tabindex:-1;" autocomplete="off" tabindex="-1">
           <div class="form-group">
             <label for="name">Nome</label>
             <input type="text" id="name" name="name" placeholder="O teu nome" required>

@@ -63,7 +63,11 @@
       document.getElementById('success-content').style.display = 'none';
       document.getElementById('error-content').style.display = 'block';
     } else if (orderNumber) {
-      document.getElementById('order-number').innerHTML = `Número da encomenda: <strong>${orderNumber}</strong>`;
+      const el = document.getElementById('order-number');
+      const strong = document.createElement('strong');
+      strong.textContent = orderNumber;
+      el.textContent = 'Número da encomenda: ';
+      el.appendChild(strong);
     } else {
       document.getElementById('order-number').textContent = 'A processar a tua encomenda...';
     }

@@ -74,15 +74,34 @@ class StripeController {
         // Se há desconto, criar cupão Stripe
         $couponId = null;
         if ($order['discount'] > 0) {
-            // Determinar percentagem de desconto
-            $discountPercent = round(($order['discount'] / ($order['subtotal'] + $order['shipping'])) * 100);
-
             try {
-                $coupon = \Stripe\Coupon::create([
-                    'percent_off' => $discountPercent,
-                    'duration' => 'once',
-                ]);
-                $couponId = $coupon->id;
+                // Determinar o tipo de desconto — usar cupão percentual para descontos proporcionais
+                // ou adicionar como line item negativo para valores fixos
+                $discountPercent = round(($order['discount'] / ($order['subtotal'] + $order['shipping'])) * 100, 2);
+
+                // Se a conversão para percentagem resulta em perda de precisão (>0.5€ diferença),
+                // usar line item negativo em vez de cupão
+                $precisionLoss = abs(($order['discount']) - round(($order['subtotal'] + $order['shipping']) * $discountPercent / 100, 2));
+
+                if ($precisionLoss > 0.50) {
+                    // Desconto fixo — adicionar como line item negativo
+                    $lineItems[] = [
+                        'price_data' => [
+                            'currency' => 'eur',
+                            'unit_amount' => -intval(round($order['discount'] * 100)),
+                            'product_data' => [
+                                'name' => 'Desconto',
+                            ],
+                        ],
+                        'quantity' => 1,
+                    ];
+                } else {
+                    $coupon = \Stripe\Coupon::create([
+                        'percent_off' => $discountPercent,
+                        'duration' => 'once',
+                    ]);
+                    $couponId = $coupon->id;
+                }
             } catch (\Exception $e) {
                 // Se falhar, continuar sem cupão Stripe
                 $couponId = null;
@@ -124,7 +143,8 @@ class StripeController {
             echo json_encode(['url' => $session->url]);
         } catch (\Exception $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Erro ao criar sessão de pagamento: ' . $e->getMessage()]);
+            error_log('Stripe session creation error: ' . $e->getMessage());
+            echo json_encode(['error' => 'Erro ao processar pagamento. Tenta novamente.']);
         }
     }
 
@@ -161,15 +181,8 @@ class StripeController {
                 $stmt = $db->prepare('UPDATE orders SET status = ? WHERE stripe_session_id = ?');
                 $stmt->execute(['paid', $session->id]);
 
-                // Adicionar email do cliente aos subscritores se ainda não existe
-                $customerEmail = $session->customer_email ?? $session->customer_details->email ?? null;
-                if ($customerEmail) {
-                    try {
-                        $db->prepare('INSERT INTO subscribers (email, source) VALUES (?, ?)')->execute([$customerEmail, 'checkout']);
-                    } catch (PDOException $e) {
-                        // Ignorar se já existe
-                    }
-                }
+                // Nota: Não adicionamos automaticamente o email aos subscritores.
+                // A subscrição na newsletter só deve ocorrer com consentimento explícito (RGPD).
                 break;
 
             case 'checkout.session.expired':

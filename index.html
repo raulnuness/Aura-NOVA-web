@@ -427,6 +427,15 @@
   <script src="js/checkout.js" defer></script>
   <script src="js/app.js" defer></script>
 
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {

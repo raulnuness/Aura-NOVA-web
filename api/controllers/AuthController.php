@@ -8,6 +8,33 @@ class AuthController {
 
     // Login admin
     public function login() {
+        // Rate limiting: 5 tentativas por IP em 15 minutos
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $loginLimitDir = __DIR__ . '/../cache/rate_limit';
+        if (!is_dir($loginLimitDir)) {
+            @mkdir($loginLimitDir, 0755, true);
+        }
+        $loginLimitFile = $loginLimitDir . '/login_' . md5($ip);
+        $now = time();
+        $loginData = ['count' => 0, 'start' => $now];
+        if (file_exists($loginLimitFile)) {
+            $content = @file_get_contents($loginLimitFile);
+            if ($content) {
+                $loginData = json_decode($content, true) ?: $loginData;
+            }
+        }
+        if (($now - ($loginData['start'] ?? 0)) > 900) {
+            $loginData = ['count' => 1, 'start' => $now];
+        } else {
+            $loginData['count'] = ($loginData['count'] ?? 0) + 1;
+        }
+        if ($loginData['count'] > 5) {
+            http_response_code(429);
+            echo json_encode(['error' => 'Demasiadas tentativas. Tenta novamente dentro de 15 minutos.']);
+            return;
+        }
+        @file_put_contents($loginLimitFile, json_encode($loginData), LOCK_EX);
+
         $data = json_decode(file_get_contents('php://input'), true);
         $username = trim($data['username'] ?? '');
         $password = $data['password'] ?? '';
@@ -28,12 +55,15 @@ class AuthController {
             return;
         }
 
+        // Login bem-sucedido — remover contador de tentativas falhadas
+        @unlink($loginLimitFile);
+
         // Gerar token e guardar hash na BD
         $token = bin2hex(random_bytes(32));
         $tokenHash = hash('sha256', $token);
         $expires = date('Y-m-d H:i:s', strtotime('+7 days'));
 
-        $this->db->prepare('UPDATE admins SET token_hash = ?, token_expires = ? WHERE id = ?')->execute([$tokenHash, $expires, $admin['id']]);
+        $this->db->prepare('UPDATE admins SET token_hash = ?, token_expires = ?, last_login = NOW() WHERE id = ?')->execute([$tokenHash, $expires, $admin['id']]);
 
         echo json_encode([
             'token' => $token,

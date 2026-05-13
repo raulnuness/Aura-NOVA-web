@@ -1,12 +1,10 @@
 <?php
 // Rate limiting por IP — limitar pedidos por janela de tempo
 function applyRateLimit($maxRequests = 60, $windowSeconds = 60) {
-    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-
-    // Se o IP tiver múltiplos (proxy), usar o primeiro
-    if (strpos($ip, ',') !== false) {
-        $ip = trim(explode(',', $ip)[0]);
-    }
+    // Usar REMOTE_ADDR diretamente — não confiar em headers do cliente
+    // pois podem ser spoofados. Se atrás de um reverse proxy de confiança,
+    // o proxy deve configurar REMOTE_ADDR corretamente.
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
     $key = 'rate_' . md5($ip);
 

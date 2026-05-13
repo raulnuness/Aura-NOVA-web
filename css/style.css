@@ -2625,7 +2625,8 @@ body.dark-mode .back-to-top:hover { background: var(--accent); color: #fff; }
   position: relative;
 }
 
-.product-card.loading .product-image::after {
+.product-card.loading .product-image::after,
+.product-card.loading [style*="background:var(--border)"] {
   content: '';
   position: absolute;
   top: 0;
@@ -2639,6 +2640,16 @@ body.dark-mode .back-to-top:hover { background: var(--accent); color: #fff; }
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
+}
+
+/* Skeleton placeholders */
+.product-card.loading > div > div {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* ═══ IMAGE ERROR FALLBACK ═══ */

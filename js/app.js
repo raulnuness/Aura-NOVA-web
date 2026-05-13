@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  // Mostrar skeleton loading enquanto carrega
+  const grid = document.getElementById("product-grid");
+  if (grid && PRODUCTS.length === 0) {
+    grid.innerHTML = Array.from({length: 8}, () => `
+      <div class="product-card loading" style="opacity:1;transform:none;">
+        <div class="product-image" style="min-height:230px;"></div>
+        <div class="product-info" style="padding:1.25rem;">
+          <div style="width:70%;height:14px;background:var(--border);border-radius:4px;margin-bottom:0.5rem;"></div>
+          <div style="width:100%;height:12px;background:var(--border);border-radius:4px;margin-bottom:0.5rem;"></div>
+          <div style="width:50%;height:18px;background:var(--border);border-radius:4px;margin-top:1rem;"></div>
+        </div>
+      </div>
+    `).join("");
+  }
+
   // Carregar produtos da API antes de tudo
   await loadProducts();
 

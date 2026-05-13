@@ -2,7 +2,9 @@
 // Middleware CORS + CSRF — permite pedidos do frontend e protege contra CSRF
 function handleCors() {
     $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-    $allowed = [CORS_ORIGIN, 'http://localhost:8000', 'http://localhost:3000'];
+    // Origens de desenvolvimento só são permitidas em ambiente de desenvolvimento
+    $devOrigins = (defined('APP_ENV') && APP_ENV === 'development') ? ['http://localhost:8000', 'http://localhost:3000'] : [];
+    $allowed = array_merge([CORS_ORIGIN], $devOrigins);
 
     // Verificar Origin para CSRF — rejeitar pedidos sem Origin de fontes não permitidas
     $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
