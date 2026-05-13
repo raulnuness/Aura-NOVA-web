@@ -1,0 +1,10 @@
+{
+    "name": "auranova/api",
+    "description": "Aura NØVA — API Backend",
+    "require": {
+        "stripe/stripe-php": "^16.0"
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    }
+}

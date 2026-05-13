@@ -3,108 +3,363 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DropShop - Loja Online</title>
+  <title>Aura NØVA — Produtos que fazem a diferença</title>
+  <meta name="description" content="Curadoria de produtos inovadores para o teu dia-a-dia. Entrega rápida, preços justos, qualidade garantida.">
+  <meta property="og:title" content="Aura NØVA — Produtos que fazem a diferença">
+  <meta property="og:description" content="Curadoria de produtos inovadores. Entrega rápida, preços justos.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="apple-touch-icon" href="img/icon-192.png">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f0f0f">
 </head>
 <body>
 
-  <div class="urgency-bar" id="urgency-bar">
-    <span id="urgency-text">Apenas 3 unidades restantes &mdash; M&aacute;scara de Terapia LED</span>
-  </div>
-
+  <!-- Header -->
   <header class="header">
     <div class="header-left">
       <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      <div class="logo">DropShop</div>
+      <a href="#" class="logo"><span class="logo-aura">Aura</span> NØVA</a>
+    </div>
+    <div class="header-search" id="header-search">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="search-input" placeholder="Pesquisar produtos..." autocomplete="off">
+      <button class="search-close" id="search-close">&times;</button>
     </div>
     <nav class="header-nav" id="header-nav">
       <a href="#" class="nav-link active" data-category="todos">Início</a>
       <a href="#bem-estar" class="nav-link" data-category="bem-estar">Bem-estar</a>
       <a href="#casa" class="nav-link" data-category="casa">Casa e Decor</a>
       <a href="#gadgets" class="nav-link" data-category="gadgets">Gadgets</a>
-      <a href="#sobre" class="nav-link" data-category="sobre">Sobre</a>
+      <a href="#sobre" class="nav-link">Sobre</a>
     </nav>
-    <button class="cart-btn" id="cart-toggle">
-      Carrinho <span id="cart-count">0</span>
-    </button>
+    <div class="header-actions">
+      <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Tema">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+      </button>
+      <button class="search-toggle" id="search-toggle" aria-label="Pesquisar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      </button>
+      <button class="cart-btn" id="cart-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.25-3h-15l.75 9h13.5l.75-9z"/></svg>
+        <span id="cart-count">0</span>
+      </button>
+    </div>
   </header>
 
-  <main>
+  <main id="main-content">
+
+    <!-- Hero -->
     <section class="hero">
-      <h1>Produtos que fazem a diferença</h1>
-      <p>Curadoria de artigos inovadores, entrega rápida e preços justos.</p>
-      <div class="countdown" id="countdown">
-        <span class="countdown-label">Promo&ccedil;&atilde;o acaba em</span>
-        <div class="countdown-timer">
-          <div class="countdown-block"><span id="cd-hours">00</span><small>horas</small></div>
-          <div class="countdown-sep">:</div>
-          <div class="countdown-block"><span id="cd-mins">00</span><small>min</small></div>
-          <div class="countdown-sep">:</div>
-          <div class="countdown-block"><span id="cd-secs">00</span><small>seg</small></div>
+      <div class="hero-content">
+        <span class="hero-badge">Envio grátis acima de 35€</span>
+        <h1>Produtos que fazem a <span>diferença</span></h1>
+        <p>Curadoria de artigos inovadores para o teu dia-a-dia. Entrega rápida, preços justos, qualidade garantida.</p>
+        <a href="#product-grid" class="hero-cta">
+          Ver produtos
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Trust bar -->
+    <section class="trust-bar">
+      <div class="trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.991v-4.991"/></svg>
+        <div><strong>Envio rápido</strong><br><span>2-5 dias úteis</span></div>
+      </div>
+      <div class="trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+        <div><strong>Compra segura</strong><br><span>Pagamento protegido</span></div>
+      </div>
+      <div class="trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>
+        <div><strong>Devoluções grátis</strong><br><span>30 dias para devolver</span></div>
+      </div>
+      <div class="trust-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+        <div><strong>4.7/5 estrelas</strong><br><span>2.000+ avaliações</span></div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products-section">
+      <div class="section-header">
+        <h2>Os nossos produtos</h2>
+        <p>Seleção cuidada para melhorar o teu dia-a-dia</p>
+      </div>
+      <div class="products-toolbar">
+        <nav class="categories" id="categories"></nav>
+        <div class="sort-wrapper">
+          <label for="sort-select">Ordenar:</label>
+          <select id="sort-select">
+            <option value="default">Recomendados</option>
+            <option value="price-asc">Preço: menor → maior</option>
+            <option value="price-desc">Preço: maior → menor</option>
+            <option value="rating">Melhor avaliação</option>
+            <option value="newest">Novidades</option>
+          </select>
+        </div>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <!-- Recently viewed -->
+    <section class="recently-viewed" id="recently-viewed" style="display:none">
+      <div class="section-header">
+        <h2>Vistos recentemente</h2>
+      </div>
+      <div class="recently-viewed-grid" id="recently-viewed-grid"></div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section" id="sobre">
+      <div class="about-grid">
+        <div class="about-content">
+          <span class="section-tag">Sobre nós</span>
+          <h2>Não somos uma loja qualquer</h2>
+          <p>A Aura NØVA nasceu de uma ideia simples: oferecer produtos que realmente fazem a diferença no dia-a-dia. Cada artigo é testado e selecionado pela nossa equipa antes de chegar até ti.</p>
+          <div class="about-stats">
+            <div class="about-stat">
+              <strong>2.000+</strong>
+              <span>Clientes satisfeitos</span>
+            </div>
+            <div class="about-stat">
+              <strong>4.7</strong>
+              <span>Avaliação média</span>
+            </div>
+            <div class="about-stat">
+              <strong>30 dias</strong>
+              <span>Devoluções grátis</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.21 2.488-.597 3.63a9 9 0 01-16.806 0A9 9 0 0112 3c4.97 0 9 4.03 9 9z"/></svg>
+            </div>
+            <div>
+              <h4>Qualidade garantida</h4>
+              <p>Só vendemos o que nós próprios usaríamos. Se não passasse no nosso teste, não está na loja.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V15m-8.25 1.5h16.5"/></svg>
+            </div>
+            <div>
+              <h4>Embalagem cuidada</h4>
+              <p>Cada encomenda é embalada com atenção. Chega em perfeitas condições, como mereces.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.487m0 0a2.115 2.115 0 01-.557-1.712l.001-.003 3.364-6.438A2.25 2.25 0 0112.75 8.25h2.25a2.25 2.25 0 012.25 2.25v1.5"/></svg>
+            </div>
+            <div>
+              <h4>Suporte dedicado</h4>
+              <p>Tens uma dúvida? Respondemos em menos de 24h. Estamos aqui para ti.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <nav class="categories" id="categories"></nav>
-
-    <section class="product-grid" id="product-grid"></section>
-
+    <!-- Reviews -->
     <section class="reviews-section">
-      <h2>O que dizem os nossos clientes</h2>
+      <div class="section-header">
+        <h2>O que dizem os nossos clientes</h2>
+        <p>Mais de 2.000 clientes satisfeitos</p>
+      </div>
       <div class="reviews-grid">
         <div class="review-card">
           <div class="review-stars">★★★★★</div>
           <p class="review-text">"A máscara LED mudou a minha rotina de skincare. Resultados visíveis em 2 semanas!"</p>
           <div class="review-author">
-            <span class="review-name">Ana S.</span>
-            <span class="review-verified">Compra verificada</span>
+            <div class="review-avatar">AS</div>
+            <div><span class="review-name">Ana S.</span><span class="review-verified">Compra verificada</span></div>
           </div>
         </div>
         <div class="review-card">
           <div class="review-stars">★★★★★</div>
           <p class="review-text">"O projetor Galaxy é incrível. O quarto ficou com um ambiente fantástico."</p>
           <div class="review-author">
-            <span class="review-name">Miguel R.</span>
-            <span class="review-verified">Compra verificada</span>
+            <div class="review-avatar">MR</div>
+            <div><span class="review-name">Miguel R.</span><span class="review-verified">Compra verificada</span></div>
           </div>
         </div>
         <div class="review-card">
           <div class="review-stars">★★★★½</div>
           <p class="review-text">"Liners da air fryer super práticos. Já não vivo sem eles, poupo muito tempo."</p>
           <div class="review-author">
-            <span class="review-name">Sofia L.</span>
-            <span class="review-verified">Compra verificada</span>
+            <div class="review-avatar">SL</div>
+            <div><span class="review-name">Sofia L.</span><span class="review-verified">Compra verificada</span></div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <div class="section-header">
+        <h2>Perguntas frequentes</h2>
+        <p>Tudo o que precisas de saber</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Quanto tempo demora a entrega?</summary>
+          <p>As encomendas são enviadas em 1-2 dias úteis. A entrega demora entre 2 a 5 dias úteis em Portugal continental. Para ilhas, o prazo pode ser superior.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso devolver um produto?</summary>
+          <p>Sim! Tens 30 dias após a receção para devolver qualquer produto sem necessidade de justificação. O processo é simples e o reembolso é garantido.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Envio é gratuito?</summary>
+          <p>Sim, para encomendas acima de 35€ o envio é grátis. Para encomendas abaixo desse valor, o custo de envio é 3,99€.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Que métodos de pagamento aceitam?</summary>
+          <p>Aceitamos MBWay, cartão de crédito/débito (Visa, Mastercard), PayPal e transferência bancária. Todos os pagamentos são processados de forma segura.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Os produtos são originais?</summary>
+          <p>Sim, todos os produtos são 100% originais e selecionados pela nossa equipa. Testamos cada produto antes de o disponibilizar na loja.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como posso usar um cupão de desconto?</summary>
+          <p>No checkout, encontras um campo "Código promocional". Introduz o teu código e o desconto será aplicado automaticamente. Experimenta: NOVA10 para 10% de desconto!</p>
+        </details>
+      </div>
+    </section>
+
   </main>
 
+  <!-- Product Modal -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="product-modal" id="product-modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-body">
+      <div class="modal-image">
+        <img id="modal-img" src="" alt="">
+      </div>
+      <div class="modal-info">
+        <span class="modal-badge" id="modal-badge"></span>
+        <h2 id="modal-name"></h2>
+        <div class="modal-rating" id="modal-rating"></div>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-pricing" id="modal-pricing"></div>
+        <div class="modal-features" id="modal-features"></div>
+        <div class="modal-actions">
+          <button class="modal-add-btn" id="modal-add-btn"><span>Adicionar ao carrinho</span></button>
+          <button class="modal-secondary-btn" id="modal-wishlist-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-related" id="modal-related"></div>
+  </div>
+
+  <!-- Cart -->
   <div class="cart-overlay" id="cart-overlay"></div>
   <aside class="cart-sidebar" id="cart-sidebar">
     <div class="cart-header">
       <h2>Carrinho</h2>
       <button id="cart-close">&times;</button>
     </div>
-    <div class="cart-items" id="cart-items">
-      <p class="cart-empty">O carrinho está vazio</p>
-    </div>
+    <div class="cart-items" id="cart-items"></div>
     <div class="cart-footer">
-      <div class="cart-total-row">
-        <span>Total</span>
-        <span id="cart-total">0,00€</span>
+      <!-- Coupon -->
+      <div class="cart-coupon">
+        <input type="text" id="coupon-input" placeholder="Código promocional">
+        <button id="coupon-apply">Aplicar</button>
       </div>
-      <button class="btn-checkout" onclick="alert('Checkout em desenvolvimento!')">Finalizar compra</button>
+      <div class="cart-summary">
+        <div class="cart-summary-row"><span>Subtotal</span><span id="cart-total">0,00€</span></div>
+        <div class="cart-summary-row" id="cart-discount-row" style="display:none"><span>Desconto</span><span id="cart-discount">0,00€</span></div>
+        <div class="cart-summary-row" id="cart-shipping-row"><span>Envio</span><span id="cart-shipping">3,99€</span></div>
+        <div class="cart-summary-row cart-total-final"><span>Total</span><span id="cart-final-total">0,00€</span></div>
+      </div>
+      <button class="btn-checkout" id="checkout-btn">Finalizar compra</button>
     </div>
   </aside>
 
+  <!-- Checkout -->
+  <div class="checkout-overlay" id="checkout-overlay"></div>
+  <div class="checkout-modal" id="checkout-modal">
+    <div class="checkout-progress">
+      <div class="checkout-step active" data-step="1"><span>1</span>Dados</div>
+      <div class="checkout-step" data-step="2"><span>2</span>Pagamento</div>
+    </div>
+    <button class="checkout-close" id="checkout-close">&times;</button>
+
+    <!-- Step 1 -->
+    <div class="checkout-form" id="checkout-step-1">
+      <h3>Dados de envio</h3>
+      <div class="checkout-grid-2">
+        <div class="form-group"><label>Nome</label><input type="text" id="ch-name" placeholder="O teu nome" required></div>
+        <div class="form-group"><label>Apelido</label><input type="text" id="ch-surname" placeholder="O teu apelido" required></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="ch-email" placeholder="email@exemplo.pt" required></div>
+      <div class="form-group"><label>Morada</label><input type="text" id="ch-address" placeholder="Rua, número" required></div>
+      <div class="checkout-grid-2">
+        <div class="form-group"><label>Código postal</label><input type="text" id="ch-zip" placeholder="0000-000" required></div>
+        <div class="form-group"><label>Cidade</label><input type="text" id="ch-city" placeholder="Cidade" required></div>
+      </div>
+      <div class="form-group"><label>Telefone</label><input type="tel" id="ch-phone" placeholder="912 345 678"></div>
+      <button class="checkout-next-btn" id="checkout-next-1">Continuar</button>
+    </div>
+
+    <!-- Step 2 — Pagamento via Stripe -->
+    <div class="checkout-form" id="checkout-step-2" style="display:none">
+      <button class="checkout-back-btn" id="checkout-back-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+        Alterar dados de envio
+      </button>
+      <h3>Pagamento seguro</h3>
+      <div id="checkout-summary-step2"></div>
+      <div class="stripe-payment-section">
+        <div class="stripe-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div>
+            <strong>Pagamento processado pelo Stripe</strong>
+            <span>Cartão, MBWay, Apple Pay e mais</span>
+          </div>
+        </div>
+        <div class="stripe-trust">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span>Ligação encriptada e segura</span>
+        </div>
+      </div>
+      <button class="checkout-next-btn stripe-pay-btn" id="stripe-pay-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pagar com Stripe
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <h4>DropShop</h4>
+        <h4><span class="logo-aura">Aura</span> NØVA</h4>
         <p>Curadoria de produtos inovadores com entrega rápida e preços justos.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        </div>
       </div>
       <div class="footer-col">
         <h4>Categorias</h4>
@@ -114,19 +369,49 @@
       </div>
       <div class="footer-col">
         <h4>Apoio</h4>
-        <a href="#">Envios e Devoluções</a>
-        <a href="#">Perguntas Frequentes</a>
-        <a href="#">Contacto</a>
+        <a href="pages/envios-devolucoes.html">Envios e Devoluções</a>
+        <a href="#faq-section">Perguntas Frequentes</a>
+        <a href="pages/rastrear.html">Rastrear Encomenda</a>
+        <a href="pages/contacto.html">Contacto</a>
+        <a href="pages/privacidade.html">Política de Privacidade</a>
+        <a href="pages/termos.html">Termos e Condições</a>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Recebe novidades e promoções exclusivas.</p>
+        <form class="footer-newsletter" id="footer-newsletter">
+          <input type="email" placeholder="O teu email" required>
+          <button type="submit">Subscrever</button>
+        </form>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 DropShop</p>
+      <div class="footer-payments">
+        <span>Visa</span><span>Mastercard</span><span>MBWay</span><span>PayPal</span>
+      </div>
+      <p>&copy; 2026 Aura NØVA. Todos os direitos reservados.</p>
     </div>
   </footer>
 
+  <!-- Back to top -->
+  <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>
+  </button>
+
+  <!-- Cookie consent -->
+  <div class="cookie-banner" id="cookie-banner">
+    <p>Usamos cookies para melhorar a tua experiência. <a href="pages/privacidade.html">Saber mais</a></p>
+    <div class="cookie-actions">
+      <button id="cookie-accept">Aceitar</button>
+      <button id="cookie-reject" class="cookie-reject">Recusar</button>
+    </div>
+  </div>
+
+  <!-- Email Popup -->
   <div class="email-popup-overlay" id="email-overlay"></div>
   <div class="email-popup" id="email-popup">
     <button class="email-popup-close" id="email-popup-close">&times;</button>
+    <div class="email-popup-icon">🎁</div>
     <h3>10% de desconto na primeira compra</h3>
     <p>Subscreve e recebe um código exclusivo no teu email.</p>
     <form class="email-popup-form" id="email-form">
@@ -136,8 +421,26 @@
     <small>Não enviamos spam. Cancela quando quiseres.</small>
   </div>
 
-  <script src="js/products.js"></script>
-  <script src="js/cart.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/products.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/checkout.js" defer></script>
+  <script src="js/app.js" defer></script>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Aura NØVA",
+    "url": "https://auranova.pt",
+    "description": "Curadoria de produtos inovadores para o teu dia-a-dia",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://auranova.pt/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </body>
 </html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rastrear Encomenda — Aura NØVA</title>
+  <meta name="description" content="Rastrea a tua encomenda Aura NØVA. Introduz o número da encomenda para ver o estado atual.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <link rel="apple-touch-icon" href="../img/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <a href="../index.html" class="logo"><span class="logo-aura">Aura</span> NØVA</a>
+    </div>
+    <div class="header-actions">
+      <button class="cart-btn" id="cart-toggle" onclick="document.getElementById('cart-sidebar').classList.add('open');document.getElementById('cart-overlay').classList.add('show');">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.25-3h-15l.75 9h13.5l.75-9z"/></svg>
+        <span id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="tracking-container">
+    <div class="tracking-form">
+      <h2>Rastrear Encomenda</h2>
+      <p>Introduz o número da tua encomenda (ex: AN-20260512-ABC12)</p>
+      <div class="tracking-input-group">
+        <input type="text" id="tracking-input" placeholder="Número da encomenda" autocomplete="off">
+        <button onclick="trackOrder()">Rastrear</button>
+      </div>
+    </div>
+
+    <div class="tracking-result" id="tracking-result">
+      <h3 id="tracking-order-number"></h3>
+      <div class="tracking-timeline" id="tracking-timeline"></div>
+    </div>
+
+    <div id="tracking-error" class="tracking-error" style="display:none;"></div>
+  </main>
+
+  <!-- Cart sidebar -->
+  <div class="cart-overlay" id="cart-overlay" onclick="document.getElementById('cart-sidebar').classList.remove('open');this.classList.remove('show');"></div>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2>Carrinho</h2>
+      <button id="cart-close" onclick="document.getElementById('cart-sidebar').classList.remove('open');document.getElementById('cart-overlay').classList.remove('show');">&times;</button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-footer">
+      <div class="cart-summary">
+        <div class="cart-summary-row"><span>Subtotal</span><span id="cart-total">0,00€</span></div>
+        <div class="cart-summary-row" id="cart-shipping-row"><span>Envio</span><span id="cart-shipping">3,99€</span></div>
+        <div class="cart-summary-row cart-total-final"><span>Total</span><span id="cart-final-total">0,00€</span></div>
+      </div>
+      <a href="../index.html#checkout" class="btn-checkout" id="checkout-btn-link">Finalizar compra</a>
+    </div>
+  </aside>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/products.js" defer></script>
+  <script src="../js/cart.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Cart.updateUI();
+
+      // Se veio com ?order= no URL, preencher automaticamente
+      const params = new URLSearchParams(window.location.search);
+      const orderParam = params.get('order');
+      if (orderParam) {
+        document.getElementById('tracking-input').value = orderParam;
+        trackOrder();
+      }
+
+      // Enter para pesquisar
+      document.getElementById('tracking-input').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') trackOrder();
+      });
+    });
+
+    async function trackOrder() {
+      const input = document.getElementById('tracking-input');
+      const orderNumber = input.value.trim().toUpperCase();
+      const resultEl = document.getElementById('tracking-result');
+      const errorEl = document.getElementById('tracking-error');
+
+      resultEl.classList.remove('show');
+      errorEl.style.display = 'none';
+
+      if (!orderNumber) {
+        errorEl.textContent = 'Introduz o número da encomenda.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      try {
+        const res = await fetch(API_BASE + '/orders/track/' + encodeURIComponent(orderNumber));
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorEl.textContent = data.error || 'Encomenda não encontrada.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        const steps = [
+          { status: 'pending', label: 'Pagamento pendente', icon: '⏳' },
+          { status: 'paid', label: 'Pagamento confirmado', icon: '✓' },
+          { status: 'shipped', label: 'Enviado', icon: '📦' },
+          { status: 'delivered', label: 'Entregue', icon: '🎉' }
+        ];
+
+        if (data.status === 'cancelled') {
+          steps.push({ status: 'cancelled', label: 'Cancelado', icon: '✕' });
+        }
+        if (data.status === 'refunded') {
+          steps.push({ status: 'refunded', label: 'Reembolsado', icon: '↩' });
+        }
+
+        const currentIdx = steps.findIndex(s => s.status === data.status);
+
+        document.getElementById('tracking-order-number').textContent = 'Encomenda ' + data.order_number;
+
+        const timeline = document.getElementById('tracking-timeline');
+        timeline.innerHTML = steps.map((step, i) => {
+          const isCompleted = i < currentIdx;
+          const isActive = i === currentIdx;
+          const cls = isActive ? 'active' : (isCompleted ? 'completed' : '');
+          return `
+            <div class="tracking-step ${cls}">
+              <div class="tracking-step-icon">${step.icon}</div>
+              <div class="tracking-step-label">
+                <strong>${step.label}</strong>
+                ${isActive ? `<span>Estado atual</span>` : (isCompleted ? '<span>Concluído</span>' : '')}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        resultEl.classList.add('show');
+
+      } catch (e) {
+        errorEl.textContent = 'Erro ao rastrear a encomenda. Verifica a ligação e tenta novamente.';
+        errorEl.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

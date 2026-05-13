@@ -1,0 +1,45 @@
+RewriteEngine On
+
+# Forçar HTTPS em produção
+RewriteCond %{HTTPS} off
+RewriteCond %{ENV:APP_ENV} production
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Router — enviar tudo para index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Bloquear acesso direto a ficheiros sensíveis
+<FilesMatch "^(config\.php|database\.php|\.env|config\.example\.php)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquear acesso à pasta vendor e cache
+RedirectMatch 403 /vendor/
+RedirectMatch 403 /cache/
+
+# CORS headers — apenas domínios permitidos
+Header set Access-Control-Allow-Origin "https://auranova.pt" env=HTTPS
+Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-CSRF-Token"
+Header set Access-Control-Max-Age "86400"
+Header set Access-Control-Allow-Credentials "true"
+
+# Segurança
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "DENY"
+Header set X-XSS-Protection "1; mode=block"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+# Compressão gzip
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json text/html text/css application/javascript
+</IfModule>
+
+# Cache de respostas API (curto — dados mudam frequentemente)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/json "access plus 5 minutes"
+</IfModule>

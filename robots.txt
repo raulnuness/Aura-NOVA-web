@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /pages/dashboard-x7k9.html
+Disallow: /api/
+
+Sitemap: https://auranova.pt/sitemap.xml
