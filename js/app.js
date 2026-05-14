@@ -1,3 +1,11 @@
+// XSS escaping para template literals
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Mostrar skeleton loading enquanto carrega
   const grid = document.getElementById("product-grid");
@@ -93,17 +101,17 @@ function renderProducts(products) {
 
   container.innerHTML = products.map(p => `
     <article class="product-card" data-id="${p.id}" onclick="openProductModal(${p.id})">
-      ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}
+      ${p.badge ? `<span class="product-badge">${escapeHtml(p.badge)}</span>` : ""}
       ${p.isNew ? `<span class="product-badge product-badge-new">Novo</span>` : ""}
       <button class="wishlist-btn ${Wishlist.has(p.id) ? 'active' : ''}" data-wishlist-btn="${p.id}" onclick="event.stopPropagation(); Wishlist.toggle(${p.id})" aria-label="Favorito">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${Wishlist.has(p.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
       </button>
       <div class="product-image">
-        <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22400%22/><text fill=%22%23666%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2216%22>Imagem indisponível</text></svg>'">
+        <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 400%22><rect fill=%22%231a1a1a%22 width=%22400%22 height=%22400%22/><text fill=%22%23666%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2216%22>Imagem indisponível</text></svg>'">
       </div>
       <div class="product-info">
-        <h3>${p.name}</h3>
-        <p class="product-desc">${p.description}</p>
+        <h3>${escapeHtml(p.name)}</h3>
+        <p class="product-desc">${escapeHtml(p.description)}</p>
         <div class="product-rating">
           <span class="star">${"★".repeat(Math.floor(p.rating))}${p.rating % 1 >= 0.5 ? "½" : ""}</span>
           <span>${p.rating} (${p.reviews})</span>
@@ -237,9 +245,9 @@ function openProductModal(id) {
       <div class="modal-related-grid">
         ${related.map(rp => `
           <div class="modal-related-item" onclick="openProductModal(${rp.id})">
-            <img src="${rp.image}" alt="${rp.name}">
+            <img src="${escapeHtml(rp.image)}" alt="${escapeHtml(rp.name)}">
             <div>
-              <span class="modal-related-name">${rp.name}</span>
+              <span class="modal-related-name">${escapeHtml(rp.name)}</span>
               <span class="modal-related-price">${rp.price.toFixed(2).replace(".", ",")}€</span>
             </div>
           </div>
